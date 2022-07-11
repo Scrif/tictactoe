@@ -29,6 +29,8 @@ body {
     line-height: 1.6;
     margin-bottom: 100px;
     display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* body */
@@ -59,9 +61,11 @@ body {
     width: 150px;
     height: 150px;
     background-color: var(--tile-background);
+    font-size: 100px;
     text-align: center;
     user-select: none;
     border-radius: 5px;
+    font-family: "Varela Round", sans-serif
 }
 
 .tile:hover {
@@ -90,6 +94,10 @@ body {
 }
 
 /* header */
+
+.header {
+
+}
 
 /* footer */
 

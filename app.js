@@ -54,7 +54,7 @@ const boardDisplay = (() => {
         gameBoard.reset();
         game.reset();
         updateGame();
-        setMessage("Player 1's turn!");
+        setMessage("Player X's turn!");
     });
 
     const updateGame = () => {
@@ -79,8 +79,8 @@ const boardDisplay = (() => {
 })();
 
 const game = (() => {
-    const player1 = player("1", "X");
-    const player2 = player("2", "O");
+    const player1 = player("X", "X");
+    const player2 = player("O", "O");
     let round = 1;
     let status = false;
 
@@ -103,7 +103,7 @@ const game = (() => {
     };
 
     const getCurrentPlayer = () => {
-        return round % 2 === 1 ? player1.getNumber() : player2.getNumber();
+        return round % 2 === 1 ? player1.getSymbol() : player2.getSymbol();
     };
 
     const checkWinner = (positionIndex) => {
