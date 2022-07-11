@@ -1,18 +1,22 @@
 'use strict';
 
-const player = (symbol) => {
+const player = (number, symbol) => {
     this.symbol = symbol;
+    this.number = number;
 
     const getSymbol = () => {
         return symbol;
     };
 
-    return { getSymbol };
+    const getNumber = () => {
+        return number;
+    }
+
+    return { getSymbol, getNumber };
 };
 
 const gameBoard = (() => {
     const board = ["", "", "", "", "", "", "", "", ""];
-    console.log(board);
 
     const setPosition = (index, symbol) => {
         if (index > board.length) return;
@@ -34,11 +38,11 @@ const gameBoard = (() => {
 })();
 
 const boardDisplay = (() => {
-    const positionBoxes = document.querySelectorAll('.tile');
+    const tiles = document.querySelectorAll('.tile');
     const messageField = document.getElementById('message');
     const resetButton = document.getElementById('reset-button');
 
-    positionBoxes.forEach((position) => {
+    tiles.forEach((position) => {
         position.addEventListener("click", (e) => {
             if (game.getStatus() || e.target.textContent !== "") return;
             game.playRound(parseInt(e.target.dataset.index));
@@ -54,8 +58,8 @@ const boardDisplay = (() => {
     });
 
     const updateGame = () => {
-        for (let i = 0; i < positionBoxes.length; i++) {
-            positionBoxes[i].textContent = gameBoard.getPosition(i);
+        for (let i = 0; i < tiles.length; i++) {
+            tiles[i].textContent = gameBoard.getPosition(i);
         }
     };
 
@@ -63,7 +67,7 @@ const boardDisplay = (() => {
         if (winner === "Draw") {
             setMessage("Draw!");
         } else {
-            setMessage(`Player {$winner} has won!`);
+            setMessage(`Player ${winner} has won!`);
         }
     };
 
@@ -75,8 +79,8 @@ const boardDisplay = (() => {
 })();
 
 const game = (() => {
-    const player1 = player("1");
-    const player2 = player("2");
+    const player1 = player("1", "X");
+    const player2 = player("2", "O");
     let round = 1;
     let status = false;
 
@@ -99,7 +103,7 @@ const game = (() => {
     };
 
     const getCurrentPlayer = () => {
-        return round % 2 === 1 ? player1.getSymbol() : player2.getSymbol();
+        return round % 2 === 1 ? player1.getNumber() : player2.getNumber();
     };
 
     const checkWinner = (positionIndex) => {
