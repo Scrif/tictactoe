@@ -11,7 +11,7 @@ const player = (symbol) => {
 };
 
 const gameBoard = (() => {
-    let board = new Array(9);
+    const board = ["", "", "", "", "", "", "", "", ""];
     console.log(board);
 
     const setPosition = (index, symbol) => {
@@ -46,7 +46,7 @@ const boardDisplay = (() => {
         })
     });
 
-    resetButton.addEventListener('click', (e) => {
+    resetButton.addEventListener("click", (e) => {
         gameBoard.reset();
         game.reset();
         updateGame();
@@ -75,8 +75,8 @@ const boardDisplay = (() => {
 })();
 
 const game = (() => {
-    const player1 = Player("1");
-    const player2 = Player("2");
+    const player1 = player("1");
+    const player2 = player("2");
     let round = 1;
     let status = false;
 
@@ -84,7 +84,7 @@ const game = (() => {
         gameBoard.setPosition(positionIndex, getCurrentPlayer());
         if (checkWinner(positionIndex)) {
             boardDisplay.displayResult(getCurrentPlayer());
-            isOver = true;
+            status = true;
             return;
         }
         if (round === 9) {
