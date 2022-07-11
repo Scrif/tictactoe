@@ -1,7 +1,7 @@
 :root {
     --background-color: #F0EBE3;
-    --header-color: ;
-    --font-color: ;
+    --header-color: #F0EBE3;
+    --font-color: black;
     --tile-background: #E4DCCF;
     --board-hover: #F0EBE3;
     --button-color: #7D9D9C;

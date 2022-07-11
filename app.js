@@ -1,16 +1,27 @@
 'use strict';
 
-const gameBoard = (() => {
-    let board = new Array(9);
+const player = (symbol) => {
+    this.symbol = symbol;
 
-    const setPosition = (location, symbol) => {
-        if (location > board.length) return;
-        board[location] = symbol;
+    const getSymbol = () => {
+        return symbol;
     };
 
-    const getPosition = (location) => {
-        if (location > board.length) return;
-        return board[location];
+    return { getSymbol };
+};
+
+const gameBoard = (() => {
+    let board = new Array(9);
+    console.log(board);
+
+    const setPosition = (index, symbol) => {
+        if (index > board.length) return;
+        board[index] = symbol;
+    };
+
+    const getPosition = (index) => {
+        if (index > board.length) return;
+        return board[index];
     };
 
     const reset = () => {
@@ -22,25 +33,17 @@ const gameBoard = (() => {
     return { setPosition, getPosition, reset }
 })();
 
-const player = (symbol) => {
-    this.symbol = symbol;
-
-    const getSymbol = () => {
-        return symbol;
-    };
-
-    return { getSymbol };
-};
-
 const boardDisplay = (() => {
-    const positionBoxes = document.querySelectorAll('.position');
-    const message = document.getElementById('message');
+    const positionBoxes = document.querySelectorAll('.tile');
+    const messageField = document.getElementById('message');
     const resetButton = document.getElementById('reset-button');
 
     positionBoxes.forEach((position) => {
-        if (game.getStatus() || e.target.textContent !== "") return;
-        game.playRound(parseInt(e.target.dataset.location));
-        updateGame();
+        position.addEventListener("click", (e) => {
+            if (game.getStatus() || e.target.textContent !== "") return;
+            game.playRound(parseInt(e.target.dataset.index));
+            updateGame();
+        })
     });
 
     resetButton.addEventListener('click', (e) => {
@@ -52,7 +55,7 @@ const boardDisplay = (() => {
 
     const updateGame = () => {
         for (let i = 0; i < positionBoxes.length; i++) {
-            positionBoxes[i].textContent = gameBoard.getField(i);
+            positionBoxes[i].textContent = gameBoard.getPosition(i);
         }
     };
 
@@ -65,7 +68,7 @@ const boardDisplay = (() => {
     };
 
     const setMessage = (message) => {
-        messageElement.textContent = message;
+        messageField.textContent = message;
     };
 
     return { displayResult, setMessage };
@@ -75,7 +78,7 @@ const game = (() => {
     const player1 = Player("1");
     const player2 = Player("2");
     let round = 1;
-    let isOver = false;
+    let status = false;
 
     const playRound = (positionIndex) => {
         gameBoard.setPosition(positionIndex, getCurrentPlayer());
@@ -86,7 +89,7 @@ const game = (() => {
         }
         if (round === 9) {
             boardDisplay.displayResult("Draw");
-            isOver = true;
+            status = true;
             return;
         }
         round++;
@@ -115,18 +118,18 @@ const game = (() => {
         .filter((set) => set.includes(positionIndex))
         .some((combination) => 
         combination.every(
-            (location) => gameBoard.getPosition(location) === getCurrentPlayer()
+            (index) => gameBoard.getPosition(index) === getCurrentPlayer()
         ));
     };
 
-    const getIsOver = () => {
-        return isOver;
+    const getStatus = () => {
+        return status;
     };
 
     const reset = () => {
         round = 1;
-        isOver = false;
+        status = false;
     };
 
-    return { playRound, getIsOver, reset };
+    return { playRound, getStatus, reset };
 })();
