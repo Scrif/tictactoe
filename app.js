@@ -4,13 +4,13 @@ const gameBoard = (() => {
     let board = new Array(9);
 
     const setPosition = (location, symbol) => {
-        if (index > board.length) return;
-        board[index] = symbol;
+        if (location > board.length) return;
+        board[location] = symbol;
     };
 
     const getPosition = (location) => {
-        if (index > board.length) return;
-        return board[index];
+        if (location > board.length) return;
+        return board[location];
     };
 
     const reset = () => {
@@ -39,7 +39,7 @@ const boardDisplay = (() => {
 
     positionBoxes.forEach((position) => {
         if (game.getStatus() || e.target.textContent !== "") return;
-        game.playRound(parseInt(e.target.dataset.index));
+        game.playRound(parseInt(e.target.dataset.location));
         updateGame();
     });
 
@@ -96,7 +96,7 @@ const game = (() => {
     };
 
     const getCurrentPlayer = () => {
-        return round % 2 === 1 ? player1.getSign() : player2.getSign();
+        return round % 2 === 1 ? player1.getSymbol() : player2.getSymbol();
     };
 
     const checkWinner = (positionIndex) => {
